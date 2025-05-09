@@ -15,7 +15,7 @@ public class Calculator {
     }
 
     public String multiply(double a, double b) {
-        return formatNumber(a * b);
+        return formatNumber(b*a);
     }
 
     public String divide(double a, double b) {

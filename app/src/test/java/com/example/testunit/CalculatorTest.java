@@ -32,7 +32,7 @@ public class CalculatorTest {
 
     @Test
     public void testMultiply() {
-        assertEquals("15", calculator.multiply(5, 3));
+        assertEquals("25", calculator.multiply(5, 5));
         assertEquals("0", calculator.multiply(0, 5));
         assertEquals("-15", calculator.multiply(-5, 3));
         assertEquals("0.02", calculator.multiply(0.1, 0.2));
