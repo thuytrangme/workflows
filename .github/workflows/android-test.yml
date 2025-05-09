@@ -1,26 +1,45 @@
-name: CI
+name: Android CI
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin'
           java-version: '11'
 
-      # Các bước build, test của bạn ở đây
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
         with:
-          name: build-output
-          path: path/to/your/build/output
+          name: test-report
+          path: app/build/reports/tests/testDebugUnitTest
+
+      - name: Upload APK (nếu có)
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
